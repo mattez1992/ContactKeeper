@@ -44,12 +44,14 @@ const ContactState = (props) => {
         type: "professional",
       },
     ],
+    current: null,
   };
 
   const [state, dispatch] = useReducer(contactReducer, initalState);
 
   // Add Contact
   const addContact = (contact) => {
+    // remove uuid when getting from DB
     contact.id = uuid();
     dispatch({ type: ADD_CONTACT, payload: contact });
   };
@@ -58,11 +60,17 @@ const ContactState = (props) => {
     dispatch({ type: DELETE_CONTACT, payload: id });
   };
   // Set Current Contact
-
+  const setCurrentContact = (contact) => {
+    dispatch({ type: SET_CURRENT, payload: contact });
+  };
   // Clear Current Contact
-
+  const clearCurrentContact = () => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
   // Update COntact
-
+  const updateContact = (contact) => {
+    dispatch({ type: UPDATE_CONTACT, payload: contact });
+  };
   // Filter Contacts
 
   // Clear Filter
@@ -71,8 +79,12 @@ const ContactState = (props) => {
     <ContactContext.Provider
       value={{
         contacts: state.contacts,
+        current: state.current,
         addContact,
         deleteContact,
+        setCurrentContact,
+        clearCurrentContact,
+        updateContact,
       }}
     >
       {props.children}

@@ -7,8 +7,12 @@ function ContactItem({ contact }) {
   const contactContext = useContext(ContactContext);
   const onDelete = (e) => {
     contactContext.deleteContact(id);
+    contactContext.clearCurrentContact();
   };
-  const onEdit = (e) => {};
+  const onEdit = (e) => {
+    console.log("on edit");
+    contactContext.setCurrentContact(contact);
+  };
   return (
     <div className="card bg-light">
       <h3 className="text-primary text-left">
