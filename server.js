@@ -1,6 +1,12 @@
 const express = require("express");
+const connectDB = require("./config/db");
 
 const app = express();
+// connect databse
+connectDB();
+
+// init MIddleware
+app.use(express.json({ extended: false }));
 // example of basic api enpoint
 // put in seperate files later
 app.get("/", (req, res) =>
