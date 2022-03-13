@@ -29,7 +29,6 @@ const contactReducer = (state, action) => {
         contacts: state.contacts.filter((c) => c.id !== action.payload),
       };
     case SET_CURRENT: {
-      console.log("Set current");
       return {
         ...state,
         current: action.payload,
@@ -39,6 +38,21 @@ const contactReducer = (state, action) => {
       return {
         ...state,
         current: null,
+      };
+    }
+    case FILTER_CONTACTS: {
+      return {
+        ...state,
+        filtered: state.contacts.filter((contact) => {
+          const regex = new RegExp(`${action.payload}`, "gi");
+          return contact.name.match(regex) || contact.email.match(regex);
+        }),
+      };
+    }
+    case CLEAR_FILTER: {
+      return {
+        ...state,
+        filtered: null,
       };
     }
 
