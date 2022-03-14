@@ -8,10 +8,8 @@ const ContactForm = () => {
   const { current } = contactContext;
   useEffect(() => {
     if (current !== null) {
-      console.log("current: " + current);
       setContact(current);
     } else {
-      console.log("else: " + current);
       setContact({
         name: "",
         email: "",

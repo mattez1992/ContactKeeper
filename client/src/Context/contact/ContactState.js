@@ -82,6 +82,7 @@ const ContactState = (props) => {
   };
   return (
     <ContactContext.Provider
+      // alawys add new props and funcitons here if they should be usable outside of this object.
       value={{
         contacts: state.contacts,
         current: state.current,
