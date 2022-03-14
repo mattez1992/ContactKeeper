@@ -31,8 +31,6 @@ function AuthState(props) {
     }
     try {
       const res = await axios.get("/api/auth");
-      console.log("load user");
-      console.log(res.data);
       dispatch({
         type: USER_LOADED,
         payload: res.data,
@@ -66,9 +64,33 @@ function AuthState(props) {
     }
   };
   // Login User Logg in get a token
+  const loginUser = async (formData) => {
+    // with a  post request we need a content header and with axios it's is done witha  config object.
+    const config = {
+      header: {
+        "Content-Type": "application/json",
+      },
+    };
 
+    try {
+      const res = await axios.post("/api/auth", formData, config);
+
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data,
+      });
+      loadUser();
+    } catch (error) {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: error.response.data.msg,
+      });
+    }
+  };
   // logout destory the token
-
+  const logout = () => {
+    dispatch({ type: LOGOUT });
+  };
   // Clear errors
   const clearErrors = () => {
     dispatch({ type: CLEAR_ERRORS });
@@ -85,6 +107,8 @@ function AuthState(props) {
         registerUser,
         clearErrors,
         loadUser,
+        loginUser,
+        logout,
       }}
     >
       {props.children}

@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import "./App.css";
+import PrivateRoute from "./Components/routing/PrivateRoute";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./Components/Layout/Navbar";
 import { Home } from "./Components/pages/Home";
@@ -28,7 +29,11 @@ const App = () => {
               <div className="container">
                 <Alerts />
                 <Routes>
-                  <Route exact path="/" element={<Home />} />
+                  <Route
+                    exact
+                    path="/"
+                    element={<PrivateRoute component={Home} />}
+                  />
                   <Route exact path="/about" element={<About />} />
                   <Route exact path="/register" element={<Register />} />
                   <Route exact path="/login" element={<Login />} />

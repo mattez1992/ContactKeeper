@@ -1,28 +1,45 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import ContactContext from "../../Context/contact/contactContext";
 import ContactItem from "./ContactItem";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { Spinner } from "../Layout/Spinner";
 const Contacts = () => {
   const contactContext = useContext(ContactContext);
-  const { contacts, filtered } = contactContext;
-  if (contacts.length < 1) {
+  const { contacts, filtered, getContacts, loading } = contactContext;
+  useEffect(() => {
+    getContacts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  if (contacts !== null && contacts.length < 1 && !loading) {
     return <h4>Please add a contact</h4>;
   }
   return (
     <>
-      <TransitionGroup>
-        {filtered === null
-          ? contacts.map((contact) => (
-              <CSSTransition key={contact.id} timeout={500} classNames="item">
-                <ContactItem contact={contact} />
-              </CSSTransition>
-            ))
-          : filtered.map((contact) => (
-              <CSSTransition key={contact.id} timeout={500} classNames="item">
-                <ContactItem key={contact.id} contact={contact} />
-              </CSSTransition>
-            ))}
-      </TransitionGroup>
+      {contacts !== null && !loading ? (
+        <TransitionGroup>
+          {filtered === null
+            ? contacts.map((contact) => (
+                <CSSTransition
+                  key={contact._id}
+                  timeout={500}
+                  classNames="item"
+                >
+                  <ContactItem contact={contact} />
+                </CSSTransition>
+              ))
+            : filtered.map((contact) => (
+                <CSSTransition
+                  key={contact._id}
+                  timeout={500}
+                  classNames="item"
+                >
+                  <ContactItem contact={contact} />
+                </CSSTransition>
+              ))}
+        </TransitionGroup>
+      ) : (
+        <Spinner />
+      )}
     </>
   );
 };
